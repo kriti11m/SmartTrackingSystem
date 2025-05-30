@@ -26,5 +26,6 @@
 
         <!-- Names the annotated entity classes -->
         <mapping class="org.example.model.User"/>
+        <mapping class="org.example.model.Parcel"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,20 +1,48 @@
 package org.example.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+@Entity
+@Table(name = "parcels")
 public class Parcel {
+    @Id
+    @Column(name = "id", nullable = false, length = 36)
     private String id;
+
+    @Column(name = "tracking_id", nullable = false, unique = true, length = 36)
     private String trackingId;
+
+    @Column(name = "sender_id", nullable = false, length = 36)
     private String senderId;
+
+    @Column(name = "recipient_name", nullable = false, length = 100)
     private String recipientName;
+
+    @Column(name = "destination_address", nullable = false, length = 255)
     private String destinationAddress;
+
+    @Column(name = "weight", nullable = false)
     private double weight;
+
+    @Column(name = "description", nullable = true, length = 500)
     private String description;
+
+    @Column(name = "status", nullable = false, length = 50)
     private String status;
+
+    @Column(name = "qr_code_path", nullable = true, length = 255)
     private String qrCodePath;
+
+    @Column(name = "created_at", nullable = false)
     private String createdAt;
+
+    @Column(name = "updated_at", nullable = false)
     private String updatedAt;
 
     // Default constructor
