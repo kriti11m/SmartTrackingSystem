@@ -1,0 +1,95 @@
+[
+  {
+    "id": "8f3c5b2e-7d6a-4e9f-8c1d-2b3a4e5f6a7b",
+    "trackingId": "TRK-F5E4C3B2",
+    "senderId": "user123",
+    "recipientName": "John Doe",
+    "destinationAddress": "123 Main St, New York, NY 10001",
+    "weight": 2.5,
+    "description": "Fragile electronics equipment",
+    "status": "Created",
+    "qrCodePath": "qrcodes/TRK-F5E4C3B2.png",
+    "createdAt": "2025-05-29 12:45:23",
+    "updatedAt": "2025-05-29 12:45:23",
+    "handoverHistory": [],
+    "tamperingFlag": false,
+    "tamperAlerts": [],
+    "currentHandlerId": null,
+    "currentLocation": null
+  },
+  {
+    "id": "9e8d7c6b-5a4f-3e2d-1c0b-a9b8c7d6e5f4",
+    "trackingId": "TRK-1A2B3C4D",
+    "senderId": "user456",
+    "recipientName": "Jane Smith",
+    "destinationAddress": "456 Oak Ave, Boston, MA 02108",
+    "weight": 5.0,
+    "description": "Books and documents",
+    "status": "In_Transit",
+    "qrCodePath": "qrcodes/TRK-1A2B3C4D.png",
+    "createdAt": "2025-05-28 10:30:15",
+    "updatedAt": "2025-05-29 09:15:42",
+    "handoverHistory": [
+      {
+        "id": "h123e4f5-6a7b-8c9d-0e1f-2a3b4c5d6e7f",
+        "parcelId": "9e8d7c6b-5a4f-3e2d-1c0b-a9b8c7d6e5f4",
+        "fromHandlerId": "user456",
+        "toHandlerId": "handler789",
+        "location": "Boston Distribution Center",
+        "notes": "Package received in good condition",
+        "timestamp": "2025-05-28 15:45:22"
+      }
+    ],
+    "tamperingFlag": false,
+    "tamperAlerts": [],
+    "currentHandlerId": "handler789",
+    "currentLocation": "Boston Distribution Center"
+  },
+  {
+    "id": "7f6e5d4c-3b2a-1f0e-9d8c-7b6a5f4e3d2c",
+    "trackingId": "TRK-9Z8Y7X6W",
+    "senderId": "user789",
+    "recipientName": "Robert Johnson",
+    "destinationAddress": "789 Pine St, San Francisco, CA 94101",
+    "weight": 1.2,
+    "description": "Gift package - handle with care",
+    "status": "Delivered",
+    "qrCodePath": "qrcodes/TRK-9Z8Y7X6W.png",
+    "createdAt": "2025-05-25 08:12:30",
+    "updatedAt": "2025-05-29 14:20:55",
+    "handoverHistory": [
+      {
+        "id": "h9876e5f4-3d2c-1b0a-9f8e-7d6c5b4a3f2e",
+        "parcelId": "7f6e5d4c-3b2a-1f0e-9d8c-7b6a5f4e3d2c",
+        "fromHandlerId": "user789",
+        "toHandlerId": "handler123",
+        "location": "San Francisco Warehouse",
+        "notes": "Initial handover",
+        "timestamp": "2025-05-26 09:30:15"
+      },
+      {
+        "id": "h5432f1e0-d9c8-b7a6-5f4e-3d2c1b0a9f8e",
+        "parcelId": "7f6e5d4c-3b2a-1f0e-9d8c-7b6a5f4e3d2c",
+        "fromHandlerId": "handler123",
+        "toHandlerId": "handler456",
+        "location": "San Francisco Delivery Center",
+        "notes": "Ready for final delivery",
+        "timestamp": "2025-05-28 11:45:30"
+      },
+      {
+        "id": "h1234f5e6-d7c8-b9a0-1f2e-3d4c5b6a7f8e",
+        "parcelId": "7f6e5d4c-3b2a-1f0e-9d8c-7b6a5f4e3d2c",
+        "fromHandlerId": "handler456",
+        "toHandlerId": null,
+        "location": "789 Pine St, San Francisco, CA 94101",
+        "notes": "Delivered to recipient",
+        "timestamp": "2025-05-29 14:20:55"
+      }
+    ],
+    "tamperingFlag": false,
+    "tamperAlerts": [],
+    "currentHandlerId": null,
+    "currentLocation": "789 Pine St, San Francisco, CA 94101"
+  }
+]
+

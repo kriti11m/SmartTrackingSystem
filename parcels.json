@@ -1,0 +1,28 @@
+[
+  {
+    "id": "367fca49-4e09-4310-8161-a40cb5dbe8f0",
+    "trackingId": "TRK-B2C1ADE0",
+    "senderId": "1",
+    "recipientName": "Kriti",
+    "destinationAddress": "qwer",
+    "weight": 11.0,
+    "description": "kriti is precious",
+    "status": "Created",
+    "qrCodePath": "qrcodes/TRK-B2C1ADE0.png",
+    "createdAt": "2025-05-29 15:17:43",
+    "updatedAt": "2025-05-29 15:17:43"
+  },
+  {
+    "id": "35e71e22-0898-4cf8-ae1e-8808ec83f089",
+    "trackingId": "TRK-F814FD53",
+    "senderId": "1",
+    "recipientName": "pranjal",
+    "destinationAddress": "qwertyuio",
+    "weight": 23.0,
+    "description": "hdd",
+    "status": "Created",
+    "qrCodePath": "qrcodes/TRK-F814FD53.png",
+    "createdAt": "2025-05-29 15:19:11",
+    "updatedAt": "2025-05-29 15:19:11"
+  }
+]
