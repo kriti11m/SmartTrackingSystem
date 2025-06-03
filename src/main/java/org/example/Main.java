@@ -98,6 +98,16 @@ public class Main {
                 }
             });
 
+            // OTP verification endpoint for delivery confirmation
+            server.createContext("/api/parcels/verify-otp", exchange -> {
+                addCorsHeaders(exchange);
+                if (exchange.getRequestMethod().equals("OPTIONS")) {
+                    handleOptionsRequest(exchange);
+                } else {
+                    parcelController.handleVerifyDeliveryOtp().handle(exchange);
+                }
+            });
+
             // Start the server
             server.setExecutor(null);
             server.start();
@@ -112,6 +122,7 @@ public class Main {
             System.out.println("GET /api/parcels/track?trackingId={trackingId} - Get parcel by tracking ID");
             System.out.println("PUT /api/parcels/status - Update parcel status");
             System.out.println("GET /api/parcels/all - Get all parcels (admin)");
+            System.out.println("POST /api/parcels/verify-otp - Verify OTP for parcel delivery");
         } catch (Exception e) {
             System.err.println("Error starting server: " + e.getMessage());
             e.printStackTrace();
@@ -121,10 +132,14 @@ public class Main {
     private static void addCorsHeaders(HttpExchange exchange) {
         exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
         exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Credentials", "true");
+        exchange.getResponseHeaders().add("Access-Control-Max-Age", "3600");
     }
 
     private static void handleOptionsRequest(HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(204, -1); // No Content
+        exchange.sendResponseHeaders(204, -1); // No content
+        exchange.getResponseBody().close();
     }
 }
+

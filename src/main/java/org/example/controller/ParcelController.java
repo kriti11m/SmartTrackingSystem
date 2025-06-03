@@ -52,6 +52,14 @@ public class ParcelController {
 
                 Parcel createdParcel = parcelService.createParcel(newParcel);
 
+                if (createdParcel == null) {
+                    responseWriter.writeError(exchange, 500, "Failed to create parcel");
+                    return;
+                }
+
+                System.out.println("Parcel created successfully with tracking ID: " + createdParcel.getTrackingId());
+                // Note: Email notification is handled automatically in parcelService.createParcel()
+
                 // Add CORS headers to allow frontend access
                 exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
 
@@ -174,6 +182,47 @@ public class ParcelController {
         };
     }
 
+    // New handler for OTP verification during delivery
+    public HttpHandler handleVerifyDeliveryOtp() {
+        return exchange -> {
+            if (!"POST".equals(exchange.getRequestMethod())) {
+                responseWriter.writeError(exchange, 405, "Method not allowed");
+                return;
+            }
+
+            try {
+                String requestBody = readRequestBody(exchange);
+                OtpVerificationRequest verifyRequest = gson.fromJson(requestBody, OtpVerificationRequest.class);
+
+                if (verifyRequest == null || isEmpty(verifyRequest.getTrackingId()) || isEmpty(verifyRequest.getOtp())) {
+                    responseWriter.writeError(exchange, 400, "Both trackingId and otp are required");
+                    return;
+                }
+
+                // Add CORS headers to allow frontend access
+                exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+
+                // Verify OTP
+                boolean isValidOtp = parcelService.verifyDeliveryOtp(
+                    verifyRequest.getTrackingId(),
+                    verifyRequest.getOtp()
+                );
+
+                if (isValidOtp) {
+                    // Update parcel status to "Delivered" after OTP verification
+                    parcelService.updateParcelStatus(verifyRequest.getTrackingId(), "Delivered");
+                    responseWriter.writeSuccess(exchange, "OTP verified. Parcel marked as delivered.");
+                } else {
+                    responseWriter.writeError(exchange, 400, "Invalid OTP or parcel not ready for delivery");
+                }
+            } catch (Exception e) {
+                System.err.println("Error verifying OTP: " + e.getMessage());
+                e.printStackTrace();
+                responseWriter.writeError(exchange, 500, "Error verifying OTP: " + e.getMessage());
+            }
+        };
+    }
+
     private String readRequestBody(HttpExchange exchange) throws IOException {
         try (InputStream input = exchange.getRequestBody()) {
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -200,6 +249,20 @@ public class ParcelController {
 
         public String getNewStatus() {
             return newStatus;
+        }
+    }
+
+    // New class for OTP verification request
+    private static class OtpVerificationRequest {
+        private String trackingId;
+        private String otp;
+
+        public String getTrackingId() {
+            return trackingId;
+        }
+
+        public String getOtp() {
+            return otp;
         }
     }
 }

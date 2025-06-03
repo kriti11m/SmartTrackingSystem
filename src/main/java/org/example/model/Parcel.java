@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 @Entity
@@ -39,6 +40,12 @@ public class Parcel {
     @Column(name = "qr_code_path", nullable = true, length = 255)
     private String qrCodePath;
 
+    @Column(name = "delivery_otp", nullable = true, length = 6)
+    private String deliveryOtp;
+
+    @Column(name = "otp_generated_at", nullable = true)
+    private String otpGeneratedAt;
+
     @Column(name = "created_at", nullable = false)
     private String createdAt;
 
@@ -63,6 +70,15 @@ public class Parcel {
     private String getCurrentTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
+    }
+
+    // Generate a random 6-digit OTP
+    public String generateDeliveryOtp() {
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000); // 6-digit number
+        this.deliveryOtp = String.valueOf(otp);
+        this.otpGeneratedAt = getCurrentTimestamp();
+        return this.deliveryOtp;
     }
 
     // Getters and Setters
@@ -137,6 +153,22 @@ public class Parcel {
 
     public void setQrCodePath(String qrCodePath) {
         this.qrCodePath = qrCodePath;
+    }
+
+    public String getDeliveryOtp() {
+        return deliveryOtp;
+    }
+
+    public void setDeliveryOtp(String deliveryOtp) {
+        this.deliveryOtp = deliveryOtp;
+    }
+
+    public String getOtpGeneratedAt() {
+        return otpGeneratedAt;
+    }
+
+    public void setOtpGeneratedAt(String otpGeneratedAt) {
+        this.otpGeneratedAt = otpGeneratedAt;
     }
 
     public String getCreatedAt() {

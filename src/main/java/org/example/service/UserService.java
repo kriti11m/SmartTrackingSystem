@@ -1,65 +1,95 @@
 package org.example.service;
 
 import org.example.model.User;
+import org.example.util.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import javax.persistence.NoResultException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
-    private SessionFactory sessionFactory;
+    public User getUserById(String userId) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        User user = null;
 
-    public UserService() {
         try {
-            Configuration configuration = new Configuration().configure();
-            sessionFactory = configuration.buildSessionFactory();
+            // Cast the string ID to long since User uses Long as ID type
+            Long id = Long.parseLong(userId);
+            user = session.get(User.class, id);
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid user ID format: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Initial SessionFactory creation failed: " + e);
-            throw new ExceptionInInitializerError(e);
+            System.err.println("Error fetching user: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
+
+        return user;
     }
 
-    public void saveUser(User user) {
-        Session session = sessionFactory.openSession();
+    public User findUserByEmail(String email) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        User user = null;
+
+        try {
+            user = session.createQuery(
+                "FROM User WHERE email = :email", User.class)
+                .setParameter("email", email)
+                .uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return user;
+    }
+
+    public User saveUser(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
 
         try {
             transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Error saving user: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         } finally {
             session.close();
         }
-    }
-
-    public User findByEmail(String email) {
-        Session session = sessionFactory.openSession();
-        try {
-            return session.createQuery("FROM User WHERE email = :email", User.class)
-                    .setParameter("email", email)
-                    .uniqueResult();
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding user by email: " + e.getMessage());
-        } finally {
-            session.close();
-        }
-    }
-
-    public User findUserByEmail(String email) {
-        return findByEmail(email);
     }
 
     public User authenticateUser(String email, String password) {
-        User user = findByEmail(email);
-        if (user != null && password != null && password.equals(user.getPassword())) {
+        User user = findUserByEmail(email);
+
+        if (user != null && password.equals(user.getPassword())) {
             return user;
         }
+
         return null;
     }
+
+    public List<User> getAllUsers() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<User> users = null;
+
+        try {
+            users = session.createQuery("FROM User", User.class).list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return users != null ? users : new ArrayList<>();
+    }
 }
+

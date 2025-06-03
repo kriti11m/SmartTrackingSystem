@@ -2,6 +2,7 @@ package org.example.service;
 
 import com.google.gson.*;
 import org.example.model.Parcel;
+import org.example.model.User;
 import org.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,11 +16,15 @@ import java.util.List;
 public class ParcelService {
     private static final String QR_CODE_DIRECTORY = "qrcodes";
     private final Gson gson;
+    private final UserService userService;
+    private final RealEmailService emailService;
 
     public ParcelService() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         this.gson = gsonBuilder.create();
+        this.userService = new UserService();
+        this.emailService = RealEmailService.fromProperties();
 
         // Create QR code directory if it doesn't exist
         File qrDir = new File(QR_CODE_DIRECTORY);
@@ -68,6 +73,9 @@ public class ParcelService {
                 parcel.setStatus("Created");
             }
 
+            // Generate delivery OTP at the time of parcel creation
+            parcel.generateDeliveryOtp();
+
             // Save the parcel to database
             session.save(parcel);
 
@@ -75,6 +83,15 @@ public class ParcelService {
             generateQRCode(parcel);
 
             transaction.commit();
+
+            // Send email notification to sender with the OTP
+            User sender = userService.getUserById(parcel.getSenderId());
+            if (sender != null) {
+                emailService.sendParcelCreationEmail(sender, parcel);
+            } else {
+                System.err.println("Sender not found for ID: " + parcel.getSenderId());
+            }
+
             return parcel;
         } catch (Exception e) {
             if (transaction != null) {
@@ -151,6 +168,20 @@ public class ParcelService {
                 .uniqueResult();
 
             if (parcel != null) {
+                // If the status is about to change to "Out for Delivery", generate OTP and send to sender
+                if ("Out for Delivery".equals(newStatus)) {
+                    // Generate and set the OTP
+                    parcel.generateDeliveryOtp();
+
+                    // Send the OTP to the sender's email
+                    User sender = userService.getUserById(parcel.getSenderId());
+                    if (sender != null) {
+                        emailService.sendDeliveryOtpEmail(sender, parcel);
+                    } else {
+                        System.err.println("Sender not found for ID: " + parcel.getSenderId());
+                    }
+                }
+
                 parcel.setStatus(newStatus);
                 parcel.setUpdatedAt(getCurrentTimestamp());
                 session.update(parcel);
@@ -166,6 +197,18 @@ public class ParcelService {
         }
 
         return parcel;
+    }
+
+    public boolean verifyDeliveryOtp(String trackingId, String providedOtp) {
+        Parcel parcel = getParcelByTrackingId(trackingId);
+        if (parcel == null) {
+            return false;
+        }
+
+        // Check if the OTP matches and the status is "Out for Delivery"
+        return "Out for Delivery".equals(parcel.getStatus()) &&
+               providedOtp != null &&
+               providedOtp.equals(parcel.getDeliveryOtp());
     }
 
     // Generate QR code for a parcel
@@ -184,3 +227,4 @@ public class ParcelService {
         }
     }
 }
+

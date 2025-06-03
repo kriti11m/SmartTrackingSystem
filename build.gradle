@@ -28,6 +28,10 @@ dependencies {
     // JSON parsing
     implementation 'com.google.code.gson:gson:2.10.1'
 
+    // Email dependencies
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation 'javax.activation:activation:1.1.1'
+
     // Testing
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
