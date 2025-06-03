@@ -1,0 +1,263 @@
+/* Dark theme styling for Smart Tracking System */
+
+:root {
+  --dark-bg: #121212;
+  --dark-surface: #1e1e1e;
+  --dark-surface-light: #2d2d2d;
+  --dark-primary: #6200ee;
+  --dark-primary-variant: #3700b3;
+  --dark-secondary: #03dac6;
+  --dark-secondary-variant: #018786;
+  --dark-error: #cf6679;
+  --dark-on-primary: #ffffff;
+  --dark-on-secondary: #000000;
+  --dark-on-background: #e1e1e1;
+  --dark-on-surface: #ffffff;
+  --dark-on-error: #000000;
+  --dark-border: #424242;
+  --dark-divider: rgba(255, 255, 255, 0.12);
+  --dark-shadow: rgba(0, 0, 0, 0.5);
+
+  --status-created: #2196F3;
+  --status-picked-up: #FFC107;
+  --status-in-transit: #FF9800;
+  --status-out-for-delivery: #8BC34A;
+  --status-delivered: #4CAF50;
+  --status-delayed: #F44336;
+  --status-returned: #9C27B0;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: var(--dark-on-background);
+  font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Common components styling */
+.container, .auth-container, .dashboard-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background-color: var(--dark-surface);
+  border-radius: 10px;
+  box-shadow: 0 8px 16px var(--dark-shadow);
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+button, .btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: var(--dark-primary);
+  color: var(--dark-on-primary);
+}
+
+button:hover, .btn:hover {
+  background-color: var(--dark-primary-variant);
+}
+
+button:disabled, .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: var(--dark-secondary);
+  color: var(--dark-on-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--dark-secondary-variant);
+}
+
+.btn-danger {
+  background-color: var(--dark-error);
+  color: var(--dark-on-error);
+}
+
+/* Form elements */
+input, select, textarea {
+  background-color: var(--dark-surface-light);
+  color: var(--dark-on-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--dark-primary);
+  box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.2);
+}
+
+label {
+  margin-bottom: 8px;
+  display: block;
+  color: var(--dark-on-background);
+  font-weight: 500;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--dark-surface);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px var(--dark-shadow);
+}
+
+thead {
+  background-color: var(--dark-surface-light);
+}
+
+th {
+  text-align: left;
+  padding: 16px;
+  color: var(--dark-on-surface);
+  font-weight: 600;
+}
+
+td {
+  padding: 14px 16px;
+  border-top: 1px solid var(--dark-divider);
+}
+
+tr {
+  transition: background-color 0.2s ease;
+}
+
+tr:hover {
+  background-color: var(--dark-surface-light);
+}
+
+/* Status badges */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-created {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: var(--status-created);
+}
+
+.status-picked-up {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: var(--status-picked-up);
+}
+
+.status-in-transit {
+  background-color: rgba(255, 152, 0, 0.2);
+  color: var(--status-in-transit);
+}
+
+.status-out-for-delivery {
+  background-color: rgba(139, 195, 74, 0.2);
+  color: var(--status-out-for-delivery);
+}
+
+.status-delivered {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: var(--status-delivered);
+}
+
+.status-delayed {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: var(--status-delayed);
+}
+
+.status-returned {
+  background-color: rgba(156, 39, 176, 0.2);
+  color: var(--status-returned);
+}
+
+/* Message styles */
+.error-message {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: var(--dark-error);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: var(--status-delivered);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--dark-surface);
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px var(--dark-shadow);
+}
+
+/* Loading indicator */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: var(--dark-primary);
+  font-weight: 500;
+}
+
+.loading:after {
+  content: " ";
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border-radius: 50%;
+  border: 3px solid var(--dark-primary);
+  border-color: var(--dark-primary) transparent var(--dark-primary) transparent;
+  animation: loading 1.2s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,131 @@
+/* Auth.css - Styling for authentication components */
+@import '../../styles/DarkTheme.css';
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--dark-bg);
+  background-image: linear-gradient(45deg, var(--dark-bg), var(--dark-surface));
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  background-color: var(--dark-surface);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px var(--dark-shadow);
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: 1.8rem;
+  color: var(--dark-on-surface);
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.auth-logo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-logo img {
+  width: 80px;
+  height: auto;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--dark-on-background);
+}
+
+.form-control {
+  padding: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid var(--dark-border);
+  background-color: var(--dark-surface-light);
+  color: var(--dark-on-surface);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--dark-primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(98, 0, 238, 0.25);
+}
+
+.auth-button {
+  padding: 0.9rem;
+  background-color: var(--dark-primary);
+  color: var(--dark-on-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 1.5rem;
+}
+
+.auth-button:hover {
+  background-color: var(--dark-primary-variant);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.alert {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.alert-danger {
+  background-color: rgba(207, 102, 121, 0.2);
+  color: var(--dark-error);
+  border: 1px solid rgba(207, 102, 121, 0.3);
+}
+
+.alert-success {
+  background-color: rgba(3, 218, 198, 0.2);
+  color: var(--dark-secondary);
+  border: 1px solid rgba(3, 218, 198, 0.3);
+}
+
+.auth-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--dark-on-background);
+}
+
+.auth-footer a {
+  color: var(--dark-secondary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
